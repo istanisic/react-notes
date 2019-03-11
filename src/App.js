@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Note from './components/Note/Note';
+import Notes from './components/Notes/Notes';
+import Button from './components/Button/Button';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes: [<Note />, <Note />]
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick () {
+    const newNotes = this.state.notes.slice();
+    newNotes.push(<Note />);
+    this.setState({
+      notes: newNotes,
+    });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Button onClick={this.handleClick} />
+        <Notes notes={this.state.notes} />
       </div>
     );
   }
