@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Note from './components/Note/Note';
 import Notes from './components/Notes/Notes';
 import Button from './components/Button/Button';
 
@@ -12,33 +11,35 @@ class App extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   handleClick () {
     const newNotes = this.state.notes.slice();
-    newNotes.push({id: newNotes.length, title: "Title", description: "description"});
+    newNotes.push({id: newNotes.length, title: "", description: ""});
     this.setState({
       notes: newNotes,
     });
   }
 
-  handleChange (id, title) {
+  handleChange (id, title, description) {
     this.setState({
-      notes: this.state.notes.map(note => (note.id === id ? {id, title} : note))
+      notes: this.state.notes.map(note => (note.id === id ? {id, title, description} : note))
   });
   }
 
-  // changeTitle (title) {
-  //   this.setState({
-  //     notes: this.state.notes.map(note => (note.id === id ? {title} : note))
-  //   })
-  // }
+  handleDeleteClick (id) {
+    const newNotes = this.state.notes.filter(note => note.id !== id);
+    this.setState({
+      notes: newNotes,
+    });
+  }
 
   render() {
     return (
       <div>
         <Button onClick={this.handleClick} />
-        <Notes notes={this.state.notes} onChange={this.handleChange} />
+        <Notes notes={this.state.notes} onChange={this.handleChange} onDelete={this.handleDeleteClick} />
       </div>
     );
   }
